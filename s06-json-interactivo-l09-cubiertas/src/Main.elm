@@ -136,7 +136,7 @@ viewLibro libro =
                         }
 
                 Nothing ->
-                    Element.text "Imagen no disponible"
+                    Element.text "No hay cubierta del libro"
 
         Nothing ->
             Element.text "Título desconocido"
