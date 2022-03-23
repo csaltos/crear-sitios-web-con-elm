@@ -126,20 +126,31 @@ viewResultado model =
 
 viewLibro : Libro -> Element.Element Msg
 viewLibro libro =
-    case libro.titulo of
-        Just titulo ->
-            case libro.muestraUrl of
-                Just muestraUrl ->
-                    Element.image []
-                        { src = muestraUrl
-                        , description = titulo
-                        }
+    Element.row []
+        [ viewCubierta libro
+        , viewTitulo libro
+        ]
 
-                Nothing ->
-                    Element.text "No hay cubierta del libro"
+
+viewTitulo : Libro -> Element.Element Msg
+viewTitulo libro =
+    Element.paragraph []
+        [ Element.text (Maybe.withDefault "Sin título" libro.titulo)
+        ]
+
+
+viewCubierta : Libro -> Element.Element Msg
+viewCubierta libro =
+    case libro.muestraUrl of
+        Just url ->
+            Element.image []
+                { src = url
+                , description =
+                    Maybe.withDefault "Sin título" libro.titulo
+                }
 
         Nothing ->
-            Element.text "Título desconocido"
+            Element.none
 
 
 viewError : Model -> Element.Element msg
@@ -218,3 +229,4 @@ getError razon =
 subscriptions : Model -> Sub Msg
 subscriptions _ =
     Sub.none
+
