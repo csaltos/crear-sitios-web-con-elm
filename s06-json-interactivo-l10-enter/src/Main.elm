@@ -1,6 +1,7 @@
 module Main exposing (..)
 
 import Browser
+import Browser.Events
 import Element
 import Element.Background
 import Element.Border
@@ -39,6 +40,7 @@ type Msg
     = MsgBuscar
     | MsgEntradaDeTexto String
     | MsgResultados (Result Http.Error (List Libro))
+    | MsgTeclaPulsada String
 
 
 initModel : Model
@@ -198,6 +200,13 @@ update msg model =
         MsgBuscar ->
             ( model, buscarLibros model.texto )
 
+        MsgTeclaPulsada tecla ->
+            if tecla == "Enter" then
+                ( model, buscarLibros model.texto )
+
+            else
+                ( model, Cmd.none )
+
         MsgResultados respuesta ->
             case respuesta of
                 Ok resultado ->
@@ -228,4 +237,9 @@ getError razon =
 
 subscriptions : Model -> Sub Msg
 subscriptions _ =
-    Sub.none
+    Browser.Events.onKeyUp parserTecla
+
+
+parserTecla =
+    Json.Decode.map MsgTeclaPulsada
+        (Json.Decode.field "key" Json.Decode.string)
