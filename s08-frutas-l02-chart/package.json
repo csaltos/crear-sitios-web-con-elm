@@ -1,0 +1,13 @@
+{
+  "name": "frutas",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "compilar": "elm-live src/Main.elm -- --output=index.js --debug",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC"
+}
